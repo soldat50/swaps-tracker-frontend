@@ -1,5 +1,27 @@
 <section class="swap-history">
-  <h2>Swap history</h2>
+  <div class="swap-history-header">
+    <h2>Swap history</h2>
+
+    <div class="currency-toggle">
+      <span>Display currency:</span>
+
+      <button
+        type="button"
+        [class.active]="displayCurrency() === CurrencyEnum.EUR"
+        (click)="setDisplayCurrency(CurrencyEnum.EUR)"
+      >
+        EUR
+      </button>
+
+      <button
+        type="button"
+        [class.active]="displayCurrency() === CurrencyEnum.USD"
+        (click)="setDisplayCurrency(CurrencyEnum.USD)"
+      >
+        USD
+      </button>
+    </div>
+  </div>
 
   @if (swapList().length === 0) {
     <p>No swap, empty</p>
@@ -14,12 +36,18 @@
           <th>Fixed rate</th>
           <th>Floating index</th>
           <th>Captured rate</th>
+          <th>
+            Gain / Loss ({{ displayCurrency() }})
+          </th>
         </tr>
       </thead>
 
       <tbody>
         @for (swap of swapList(); track swap.id) {
-          <tr>
+          <tr
+            [class.gain]="swap.displayedNpv > 0"
+            [class.loss]="swap.displayedNpv < 0"
+          >
             <td>{{ swap.id.slice(0, 8) }}</td>
 
             <td>
@@ -43,6 +71,11 @@
 
             <td>
               {{ swap.capturedFloatingRate | percent:'1.2-6' }}
+            </td>
+
+            <td>
+              {{ swap.displayedNpv | number:'1.2-2' }}
+              {{ displayCurrency() }}
             </td>
           </tr>
         }
