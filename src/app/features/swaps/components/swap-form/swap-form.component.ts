@@ -127,8 +127,7 @@ export class SwapFormComponent {
     }
 
     this.addSwapToStore(formValue);
-    console.log('SwapForm value: ', formValue);
-
+    this.resetForm();
   }
 
   private addSwapToStore(rawData: any) {
@@ -137,8 +136,8 @@ export class SwapFormComponent {
       direction: rawData.direction,
       notional: rawData.notional,
       currency: rawData.currency,
-      startDate: rawData.startDate,
-      endDate: rawData.endDate,
+      startDate:  new Date(rawData.startDate),
+      endDate:  new Date(rawData.endDate),
 
       // Le formulaire saisit 2 pour représenter 2 %.
       // Le modèle stocke 0.02.
@@ -149,6 +148,19 @@ export class SwapFormComponent {
       // Taux enregistré au moment de la création du swap.
       capturedFloatingRate:
         this._floatingRateService.currentRate()
+    });
+  }
+
+  
+  private resetForm(): void {
+    this.swapForm.reset({
+      direction: SwapDirectionEnum.PAY_FIXED,
+      notional: null,
+      currency: CurrencyEnum.EUR,
+      startDate: '',
+      endDate: '',
+      fixedRate: null,
+      floatingIndex: FloatingIndexEnum.ESTR
     });
   }
 

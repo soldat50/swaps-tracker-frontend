@@ -13,14 +13,14 @@
           <th>Duration</th>
           <th>Fixed rate</th>
           <th>Floating index</th>
-          <th>Floating rate</th>
+          <th>Captured rate</th>
         </tr>
       </thead>
 
       <tbody>
         @for (swap of swapList(); track swap.id) {
           <tr>
-            <td>{{ swap.id }}</td>
+            <td>{{ swap.id.slice(0, 8) }}</td>
 
             <td>
               {{ swap.notional | number:'1.2-2' }}

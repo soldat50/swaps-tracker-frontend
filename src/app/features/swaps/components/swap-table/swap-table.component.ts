@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { SwapsStore } from '../../store/swaps.store';
 import { DecimalPipe, PercentPipe } from '@angular/common';
+import { calculateDurationInYears } from '../../../../utils/duration.util';
 
 @Component({
   selector: 'app-swap-table',
@@ -18,7 +19,10 @@ export class SwapTableComponent {
   protected readonly swapList = computed(() =>
     this.swapStore.swaps().map(swap => ({
       ...swap,
-      durationInYears: 2
+      durationInYears: calculateDurationInYears(
+        swap.startDate,
+        swap.endDate
+      )
     }))
   );
 }
