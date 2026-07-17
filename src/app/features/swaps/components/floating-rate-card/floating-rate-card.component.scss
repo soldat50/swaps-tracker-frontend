@@ -1,0 +1,24 @@
+.floating-rate-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 280px;
+  padding: 1rem;
+  border: 2px solid;
+  border-radius: .75rem;
+  background: #fafafa;
+  box-shadow:
+    0 4px 12px rgb(0 0 0 / 8%);
+}
+
+.floating-rate-card .label {
+  font-size: .9rem;
+  letter-spacing: .08rem;
+  color: #666;
+}
+
+.floating-rate-card .value {
+  margin-top: .5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
