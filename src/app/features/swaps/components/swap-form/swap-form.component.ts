@@ -105,4 +105,23 @@ export class SwapFormComponent {
       }
     )
   }
+
+  protected submit(): void {
+    if (this.swapForm.invalid) {
+      return;
+    }
+
+    const formValue = this.swapForm.getRawValue();
+
+    if (
+      formValue.notional === null ||
+      formValue.fixedRate === null
+    ) {
+      return;
+    }
+
+    console.log('SwapForm value: ', formValue);
+
+  }
+
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="swapForm">
+<form [formGroup]="swapForm" (ngSubmit)="submit()">
     <div>
         <label for="direction">Direction</label>
         <select id="direction" formControlName="direction">
@@ -45,10 +45,9 @@
             }
         </select>
     </div>
-    
+    <div class="actions">
+        <button type="submit" [disabled]="swapForm.invalid">
+            Add Swap
+        </button>
+    </div>
 </form>
-<div class="actions">
-    <button type="submit" [disabled]="swapForm.invalid">
-        Add Swap
-    </button>
-</div>
