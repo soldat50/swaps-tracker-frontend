@@ -1,0 +1,52 @@
+<section class="swap-history">
+  <h2>Swap history</h2>
+
+  @if (swapList().length === 0) {
+    <p>No swap, empty</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Notional</th>
+          <th>Currency</th>
+          <th>Duration</th>
+          <th>Fixed rate</th>
+          <th>Floating index</th>
+          <th>Floating rate</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (swap of swapList(); track swap.id) {
+          <tr>
+            <td>{{ swap.id }}</td>
+
+            <td>
+              {{ swap.notional | number:'1.2-2' }}
+            </td>
+
+            <td>{{ swap.currency }}</td>
+
+            <td>
+              {{ swap.durationInYears | number:'1.2-2' }}
+              years
+            </td>
+
+            <td>
+              {{ swap.fixedRate | percent:'1.2-6' }}
+            </td>
+
+            <td>
+              {{ swap.floatingIndex }}
+            </td>
+
+            <td>
+              {{ swap.capturedFloatingRate | percent:'1.2-6' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

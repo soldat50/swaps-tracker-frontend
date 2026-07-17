@@ -1,15 +1,21 @@
-import { Component, computed, effect, Signal } from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyEnum, FloatingIndexEnum, SwapDirectionEnum } from '../../../../models/swap.enum';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SwapsStore } from '../../store/swaps.store';
+import { FloatingRateService } from '../../../../services/floating-rate.service';
 
 @Component({
   selector: 'app-swap-form',
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './swap-form.component.html',
   styleUrl: './swap-form.component.scss',
 })
 export class SwapFormComponent {
+  private readonly _swapStore = inject(SwapsStore);
+  private readonly _floatingRateService = inject(FloatingRateService);
+
   protected swapForm: FormGroup = this.createSwapForm();
 
   protected readonly directions = Object.values(SwapDirectionEnum);
@@ -120,8 +126,30 @@ export class SwapFormComponent {
       return;
     }
 
+    this.addSwapToStore(formValue);
     console.log('SwapForm value: ', formValue);
 
+  }
+
+  private addSwapToStore(rawData: any) {
+    this._swapStore.addSwap({
+      id: crypto.randomUUID(),
+      direction: rawData.direction,
+      notional: rawData.notional,
+      currency: rawData.currency,
+      startDate: rawData.startDate,
+      endDate: rawData.endDate,
+
+      // Le formulaire saisit 2 pour représenter 2 %.
+      // Le modèle stocke 0.02.
+      fixedRate: rawData.fixedRate / 100,
+
+      floatingIndex: rawData.floatingIndex,
+
+      // Taux enregistré au moment de la création du swap.
+      capturedFloatingRate:
+        this._floatingRateService.currentRate()
+    });
   }
 
 }

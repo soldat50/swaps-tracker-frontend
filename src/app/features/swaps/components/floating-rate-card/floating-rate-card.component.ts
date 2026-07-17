@@ -4,6 +4,7 @@ import { PercentPipe } from '@angular/common';
 
 @Component({
   selector: 'app-floating-rate-card',
+  standalone: true,
   imports: [PercentPipe],
   templateUrl: './floating-rate-card.component.html',
   styleUrl: './floating-rate-card.component.scss',
