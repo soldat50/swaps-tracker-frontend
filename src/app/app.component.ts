@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
+import { FloatingRateService } from './services/floating-rate.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  private readonly _floatingRateService = inject(FloatingRateService);
+
+  protected currentRate: Signal<number> = this._floatingRateService.currentRate;
 }
